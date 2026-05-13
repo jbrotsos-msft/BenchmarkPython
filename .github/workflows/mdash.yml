@@ -28,7 +28,7 @@ jobs:
 
     - name: Run Defender CLI Scan (Built)
       run: |
-        ./defender scan image 'vuln/testdocker:latest' --output-formats html,sarif --defender-output output.html
+        ./defender scan fs . --include ai-vuln --output defender.sarif
       continue-on-error: true
       env:
         AISCAN_TENANT_ID: ${{ secrets.AISCAN_TENANT_ID }}
