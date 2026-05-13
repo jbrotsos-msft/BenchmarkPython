@@ -1,0 +1,55 @@
+name: Defender CLI Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  defender-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+        
+    - name: Download Defender CLI
+      run: |
+       curl -L -o defender "https://aka.ms/defender-cli_linux-x64" && chmod +x defender
+
+    - name: Run Defender CLI Scan (Built)
+      run: |
+        ./defender scan image 'vuln/testdocker:latest' --output-formats html,sarif --defender-output output.html
+      continue-on-error: true
+      env:
+        AISCAN_TENANT_ID: ${{ secrets.AISCAN_TENANT_ID }}
+
+    - name: Upload production-ready artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: results
+        path: output.html
+
+    - name: Upload SARIF to Code Scanning
+      if: always()
+      uses: github/codeql-action/upload-sarif@v4
+      continue-on-error: true
+      with:
+        sarif_file: defender.sarif
+
+    - name: Upload SARIF to Code Scanning
+      if: always()
+      uses: github/codeql-action/upload-sarif@v4
+      continue-on-error: true
+      with:
+        sarif_file: ${{ steps.msdo.outputs.sarifFile }}
+        
