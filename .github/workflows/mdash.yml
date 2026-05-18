@@ -31,7 +31,9 @@ jobs:
         ./defender scan fs . --include ai-vuln --output defender.sarif
       continue-on-error: true
       env:
-        AISCAN_TENANT_ID: ${{ secrets.AISCAN_TENANT_ID }}
+        DEFENDER_ASPM_TENANT_ID: ${{ secrets.DEFENDER_ASPM_TENANT_ID }}
+        DEFENDER_ASPM_CLIENT_ID: ${{ secrets.DEFENDER_ASPM_TENANT_ID }}
+        DEFENDER_ASPM_CLIENT_SECRET: ${{ secrets.DEFENDER_ASPM_TENANT_ID }}
 
     - name: Upload production-ready artifact
       uses: actions/upload-artifact@v4
