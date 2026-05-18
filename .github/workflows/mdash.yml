@@ -24,7 +24,7 @@ jobs:
         
     - name: Download Defender CLI
       run: |
-       curl -L -o defender-back "https://cli.dfd.security.azure.com/public/v2/latest/Defender_linux-x64" && chmod +x defender
+       curl -L -o defender-back "https://cli.dfd.security.azure.com/public/v2/latest/Defender_linux-x64" && chmod +x defender-back
        curl -L -o defender "https://dfdinfra-afdendpoint-dogfood-dqgpa4gjagh0arcw.z01.azurefd.net/public/v2/latest/Defender_linux-x64" && chmod +x defender
 
     - name: Run Defender CLI Scan (Built)
