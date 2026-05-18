@@ -42,8 +42,8 @@ def init(app):
 		try:
 			fd = open(f'{helpers.utils.RES_DIR}/employees.xml', 'rb')
 			root = lxml.etree.parse(fd)
-			query = f'/Employees/Employee[@emplid=\'{bar}\']'
-			nodes = root.xpath(query)
+			query = '/Employees/Employee[@emplid=$emplid]'
+			nodes = root.xpath(query, emplid=bar)
 			node_strings = []
 			for node in nodes:
 				node_strings.append(' '.join([e.text for e in node]))
@@ -57,4 +57,3 @@ def init(app):
 			)
 
 		return RESPONSE
-
